@@ -1,0 +1,126 @@
+﻿@model List<CartItem>
+
+<h1>Shopping Cart</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="selectAll" /></th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var total = item.Product.ProductPrice * item.Quantity;
+            <tr id="cartItem_@item.CartId">
+                <td><input type="checkbox" class="item-checkbox" data-total="@total" /></td>
+                <td>@item.Product.ProductName</td>
+                <td>₹@item.Product.ProductPrice.ToString("N2")</td>
+                <td>@item.Quantity</td>
+                <td class="total-price">₹@total.ToString("N2")</td>
+                <td>
+                    <a href="javascript:void(0);" onclick="deleteCart(@item.CartId)" class="btn btn-danger">Remove</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Grand Total: ₹<span id="grandTotal">0.00</span></h3>
+
+<a asp-action="ProductsList" asp-controller="Product" class="btn btn-primary">Back</a>
+<a href="javascript:void(0);" onclick="createOrder()" class=" btn btn-warning btn-lg rounded-pill"><h4>Proceed to Buy</h4></a>
+
+<style>
+    .rounded-pill 
+    {
+       color:white;
+       margin-left:70%;
+    }
+</style> 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#selectAll').click(function () {
+            var isChecked = $(this).is(':checked');
+            $('.item-checkbox').prop('checked', isChecked);
+            updateGrandTotal();
+        });
+
+        $('.item-checkbox').click(function () {
+            if (!$(this).is(':checked')) {
+                $('#selectAll').prop('checked', false);
+            }
+            updateGrandTotal();
+        });
+    });
+
+    function deleteCart(cartId) {
+        var url = "/Cart/DeleteCart";
+        var parameters = { cartId: cartId };
+
+        $.post(url, parameters)
+            .done(function (data) {
+                if (data.success) {
+                    alert("Item removed successfully ");
+                    $("#cartItem_" + cartId).remove();
+                    updateGrandTotal();
+                } else {
+                    alert("Item Removed");
+                }
+            })
+            .fail(function (error) {
+                alert("Error removing cart item");
+                console.error(error);
+            });
+    }
+    function createOrder() {
+        var selectedItems = [];
+        $(".item-checkbox:checked").each(function () {
+            selectedItems.push(parseInt($(this).closest('tr').attr('id').split('_')[1]));
+        });
+
+        if (selectedItems.length === 0) {
+            alert("Please select at least one item to order.");
+            return;
+        }
+
+        var url = "/Order/CreateOrder";
+        var parameters = JSON.stringify(selectedItems);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: parameters,
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json'
+        })
+            .done(function (data) {
+                if (data.success) {
+                    window.location.href = "/Order/OrderList";
+                } else {
+                    alert("Failed to create order: " + data.message);
+                }
+            })
+            .fail(function (error) {
+                alert("Error creating order");
+                console.error(error);
+            });
+    }
+    function updateGrandTotal() {
+        var grandTotal = 0;
+        $(".item-checkbox:checked").each(function () {
+            var total = parseFloat($(this).data('total'));
+            if (!isNaN(total)) {
+                grandTotal += total;
+            }
+        });
+        $("#grandTotal").text(grandTotal.toFixed(2));
+    }
+</script>

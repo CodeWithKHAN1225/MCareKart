@@ -1,0 +1,54 @@
+﻿@model List<Product>
+
+@{
+    ViewData["Title"] = "Products List";
+}
+<div class="container">
+    <h1>Products List</h1>
+    <h5><label for="keyword">Search by Product Name</label></h5>
+    <form id="searchForm" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="flex: 1; margin-right: 10px;">
+            <input type="text" id="keyword" placeholder="Enter keyword" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
+        </div>
+        <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+        <a href="@Url.Action("AddProduct", "Product")" class="btn btn-primary" style="margin-left: 10px;">Add Product</a>
+    </form>
+    <div style="margin-bottom: 1.2em;"></div>
+
+    <div id="results">
+        @Html.Partial("_ProductListPartial", Model)
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function searchProducts(keyword) {
+                $.ajax({
+                    url: '@Url.Action("SearchProducts", "Product")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(keyword),
+                    success: function (data) {
+                        $('#results').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            searchProducts('');
+            $('#searchButton').click(function () {
+               var keyword = $('#keyword').val();
+                 searchProducts(keyword, 1); // Start from page 1
+          });
+
+          $('#keyword').on('input', function () {
+            var keyword = $(this).val();
+          searchProducts(keyword, 1); // Start from page 1
+           });
+        });
+    </script>
+}

@@ -1,0 +1,195 @@
+﻿@model List<Order>
+
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Number</th>
+            <th>User ID</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Order Items</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr id="orderRow_@order.OrderId">
+                <td>@order.OrderId</td>
+                <td>@order.OrderNumber</td>
+                <td>@order.UserID</td>
+                <td>@order.OrderDate.ToString("g")</td>
+                <td>₹ @order.TotalPrice.ToString("N2")</td>
+                <td>
+                    <ul>
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product.ProductName - @item.Quantity x ₹ @item.Price.ToString("N2")</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteOrder(@order.OrderId)">Delete</button>
+                    <span class="text-success" id="successMessage_@order.OrderId"></span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-success" onclick="checkout()" style="margin-left:88%"><h4>Checkout</h4></button>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" ></script>
+<script type="text/javascript">
+        function deleteOrder(orderId) {
+            var url = "/Order/DeleteOrder";
+            var parameters = { orderId: orderId };
+
+            $.post(url, parameters)
+                .done(function (data) {
+                    if (data.success) {
+                        $("#successMessage_" + orderId).text("Order deleted successfully").css("color", "green");
+                        // Optionally, remove the row from the table
+                        $("#orderRow_" + orderId).remove();
+                    } else {
+                        alert("Failed to delete order.");
+                    }
+                })
+                .fail(function (error) {
+                    alert("Error deleting order");
+                    console.error(error);
+                });
+        }
+
+    function checkout() {
+        var url = "/Order/Checkout";
+
+        $.post(url)
+            .done(function (data) {
+                if (data.success) {
+                    // Redirect to the Thank You page
+                    window.location.href = "/Order/ThankYou";
+                } else {
+                    alert("Failed to place order.");
+                }
+            })
+            .fail(function (error) {
+                alert("Error placing order");
+                console.error(error);
+            });
+    }
+</script>
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @model List<Order>
+
+<h1>Orders</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Order Number</th>
+            <th>User ID</th>
+            <th>Order Date</th>
+            <th>Total Price</th>
+            <th>Order Items</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var order in Model)
+        {
+            <tr>
+                <td>@order.OrderId</td>
+                <td>@order.OrderNumber</td>
+                <td>@order.UserID</td>
+                <td>@order.OrderDate.ToString("g")</td>
+                <td>₹ @order.TotalPrice.ToString("N2")</td>
+                <td>
+                    <ul>
+                        @foreach (var item in order.OrderItems)
+                        {
+                            <li>@item.Product.ProductName - @item.Quantity x ₹ @item.Price.ToString("N2")</li>
+                        }
+                    </ul>
+                </td>
+                <td>
+                    <button class="btn btn-danger" onclick="deleteOrder(@order.OrderId)">Delete</button>
+                    <span class="text-success" id="successMessage_@order.OrderId"></span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-success" onclick="checkout()" style="margin-left:88%"><h4>Checkout</h4></button>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    function deleteOrder(orderId) {
+        var url = "/Order/DeleteOrder";
+        var parameters = { orderId: orderId };
+
+        $.post(url, parameters)
+            .done(function (data) {
+                if (data.success) {
+                    $("#successMessage_" + orderId).text("Order deleted successfully");
+                    // Optionally, you can also remove the row from the table
+                    // $("#orderRow_" + orderId).remove();
+                } else {
+                    alert("Failed to delete order.");
+                }
+            })
+            .fail(function (error) {
+                alert("Error deleting order");
+                console.error(error);
+            });
+    }
+
+    function checkout() {
+        var url = "/Order/Checkout";
+
+        $.post(url)
+            .done(function (data) {
+                if (data.success) {
+                    window.location.href = "/Order/ThankYou";
+                } else {
+                    alert("Failed to place order.");
+                }
+            })
+            .fail(function (error) {
+                alert("Error placing order");
+                console.error(error);
+            });
+    }
+</script>
+ *@

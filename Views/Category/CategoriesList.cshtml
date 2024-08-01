@@ -1,0 +1,57 @@
+﻿
+@model List<Category>
+
+@{
+    ViewData["Title"] = "Categories List";
+}
+
+<h1>Categories List</h1>
+<h5><label for="keyword">Search by Category Name</label></h5>
+<form id="searchForm" style="display: flex; align-items: center; justify-content: space-between;">
+    <div style="flex: 1; margin-right: 10px;">
+    <input type="text" id="keyword" placeholder="Enter keyword" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
+    </div>
+    <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+   @*  <a href="@Url.Action("AddProduct", "Product")" class="btn btn-primary" style="margin-left: 10px;">Add Product</a> *@
+</form>
+<div style="margin-bottom: 1.2em;"></div>
+<div id="results">
+    @Html.Partial("_CategoryListPartial", Model)
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            function searchCategories(keyword) {
+                $.ajax({
+                    url: '/Category/SearchCategories',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(keyword),
+                    success: function (data) {
+                        debugger;
+                        $('#results').html(data);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+
+            searchCategories('');
+
+
+            $('#searchButton').click(function () {
+                var keyword = $('#keyword').val();
+                searchCategories(keyword);
+            });
+
+            $('#keyword').on('input', function () {
+                var keyword = $(this).val();
+                searchCategories(keyword);
+            });
+        });
+    </script>
+}
