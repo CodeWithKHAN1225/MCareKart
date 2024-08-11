@@ -4,9 +4,12 @@
     ViewData["Title"] = "Add Product";
 }
 
-<h2>Add Product</h2>
-
-<form asp-action="SaveProduct" method="post">
+<form asp-action="UpdateProduct" method="post" class="form-horizontal">
+  <div class="card" style="margin-top:5%;">
+        <div class="card-body">
+            <h3 class="card-title">Add Product</h3>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-group">
         <label asp-for="ProductName"></label>
         <input asp-for="ProductName" class="form-control" />
@@ -27,12 +30,12 @@
         <select asp-for="CategoryID" class="form-control select2" asp-items="Model.Categories"></select>
         <span asp-validation-for="CategoryID" class="text-danger"></span>
     </div>
-   
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <a href="@Url.Action("ProductList", "Product")" class="btn btn-secondary">Cancel</a>
-    </div>
+  </div>
 </form>
+<div style="padding:2%">
+   <button type="submit" class="btn btn-primary">Save</button>
+   <a asp-action="ProductsList" class="btn btn-secondary" style="margin-left:83%">Back to List</a>
+</div>
 
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

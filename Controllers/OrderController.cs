@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using UPC_DropDown.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class OrderController : Controller
 {
@@ -77,6 +74,7 @@ public class OrderController : Controller
             return Json(new { success = false, message = errorMessage });
         }
     }
+
     [HttpPost]
     public IActionResult DeleteOrder(int orderId)
     {
@@ -105,15 +103,26 @@ public class OrderController : Controller
             return Json(new { success = false, message = errorMessage });
         }
     }
+
     [HttpPost]
-    public IActionResult Checkout()
+    public IActionResult Checkout(int orderId)
     {
         try
         {
-            // Your order checkout logic here
-            // This could include updating order status, processing payment, etc.
+            // Find the order based on orderId
+            var order = _db.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                                  .FirstOrDefault(o => o.OrderId == orderId);
 
-            return Json(new { success = true });
+            if (order == null)
+            {
+                return Json(new { success = false, message = "Order not found." });
+            }
+
+            // Assuming some logic to update order status, etc.
+            // Here you can update the order's status or perform other necessary operations
+
+            // Redirect to PaymentPage with orderId
+            return Json(new { success = true, redirectUrl = Url.Action("PaymentPage", new { orderId }) });
         }
         catch (Exception ex)
         {
@@ -127,9 +136,53 @@ public class OrderController : Controller
             return Json(new { success = false, message = errorMessage });
         }
     }
-
-    public IActionResult ThankYou()
+    public IActionResult ThankYou(int orderId)
     {
-        return View(ThankYou);
+        try
+        {
+            // Retrieve the order based on orderId
+            var order = _db.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                                  .FirstOrDefault(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Assuming you have a way to get the user's name (e.g., from a user table or session)
+            // Replace this with actual logic to retrieve user details
+            string userName = "Akram"; // Replace with actual user retrieval logic
+
+            var viewModel = new ThankYouViewModel
+            {
+                Order = order,
+                UserName = userName
+            };
+
+            return View(viewModel);
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"Error retrieving order details: {ex.Message}";
+            if (ex.InnerException != null)
+            {
+                errorMessage += $"; Inner exception: {ex.InnerException.Message}";
+            }
+            Console.WriteLine(errorMessage);
+
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
+    public IActionResult PaymentPage(int orderId)
+    {
+        // Retrieve the order based on orderId
+        var order = _db.Orders.Include(o => o.OrderItems).ThenInclude(oi => oi.Product)
+                              .FirstOrDefault(o => o.OrderId == orderId);
+        if (order == null)
+        {
+            return NotFound();
+        }
+        return View(order);
     }
 }

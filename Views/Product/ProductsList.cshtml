@@ -4,13 +4,15 @@
     ViewData["Title"] = "Products List";
 }
 <div class="container">
-    <h1>Products List</h1>
-    <h5><label for="keyword">Search by Product Name</label></h5>
+    <h1><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="M840-519v339q0 24-18 42t-42 18H179q-24 0-42-18t-18-42v-339q-28-24-37-59t2-70l43-135q8-27 28-42t46-15h553q28 0 49 15.5t29 41.5l44 135q11 35 1.5 70T840-519Zm-270-31q29 0 49-19t16-46l-25-165H510v165q0 26 17 45.5t43 19.5Zm-187 0q28 0 47.5-19t19.5-46v-165H350l-25 165q-4 26 14 45.5t44 19.5Zm-182 0q24 0 41.5-16.5T263-607l26-173H189l-46 146q-10 31 8 57.5t50 26.5Zm557 0q32 0 50.5-26t8.5-58l-46-146H671l26 173q3 24 20.5 40.5T758-550Z" /></svg> Products List</h1>
     <form id="searchForm" style="display: flex; align-items: center; justify-content: space-between;">
         <div style="flex: 1; margin-right: 10px;">
-            <input type="text" id="keyword" placeholder="Enter keyword" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
+            <input type="text" id="keyword" placeholder="Search by Product Name" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
         </div>
-        <button type="button" id="searchButton" class="btn btn-primary">Search</button>
+        <button type="button" id="searchButton" class="btn btn-primary">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M80-200v-80h400v80H80Zm0-200v-80h200v80H80Zm0-200v-80h200v80H80Zm744 400L670-354q-24 17-52.5 25.5T560-320q-83 0-141.5-58.5T360-520q0-83 58.5-141.5T560-720q83 0 141.5 58.5T760-520q0 29-8.5 57.5T726-410l154 154-56 56ZM560-400q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z" /></svg>
+            Search
+        </button>
         <a href="@Url.Action("AddProduct", "Product")" class="btn btn-primary" style="margin-left: 10px;">Add Product</a>
     </form>
     <div style="margin-bottom: 1.2em;"></div>
@@ -18,6 +20,7 @@
     <div id="results">
         @Html.Partial("_ProductListPartial", Model)
     </div>
+
 </div>
 
 @section Scripts {

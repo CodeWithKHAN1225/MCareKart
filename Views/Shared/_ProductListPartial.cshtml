@@ -5,15 +5,16 @@
     var pageSize = ViewData["PageSize"] != null ? (int)ViewData["PageSize"] : 10;
     var totalPages = ViewData["TotalPages"] != null ? (int)ViewData["TotalPages"] : 1;
 }
-
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
 <table class="table table-hover table-striped">
     <thead class="bg-info">
         <tr>
-            <th>Product ID</th>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Product Description</th>
-            <th>Category Name</th>
+            <th>ID</th>
+             <th>Image</th> 
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Category ID</th>
             <th colspan="3" style="text-align:center">Action</th>
         </tr>
     </thead>
@@ -22,18 +23,21 @@
         {
             <tr id="product_@product.ProductID">
                 <td>@product.ProductID</td>
+                <td>
+                   @*  <img src="~/Product/@product.ImageFileName" width="100" /> *@
+                </td>  
                 <td>@product.ProductName</td>
                 <td>@product.ProductPrice</td>
                 <td>@product.ProductDescription</td>
                 <td>@product.CategoryID</td>
-                <td>
+                <td class="material-symbols-outlined">
                     <a asp-controller="Product" asp-action="EditProduct" asp-route-ProductID="@product.ProductID" class="btn btn-primary">Edit</a>
                 </td>
-                <td>
-                    <a href="javascript:void(0);" onclick="deleteProduct(@product.ProductID)" class="btn btn-danger">Delete</a>
+                <td class="material-symbols-outlined">
+                    <a href="javascript:void(0);" onclick="deleteProduct(@product.ProductID)" class="btn btn-danger">delete</a>
                 </td>
-                <td>
-                    <a href="javascript:void(0);" onclick="addToCart(@product.ProductID)" class="btn btn-warning">Add To Cart</a>
+                <td class="material-symbols-outlined">
+                        <a href="javascript:void(0);" onclick="addToCart(@product.ProductID)" class="btn btn-warning">shopping_cart_checkout</a>
                 </td>
             </tr>
         }
@@ -44,41 +48,37 @@
             </tr>
         }
     </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="7">
-                <nav style="align-content:center" aria-label="Page navigation">
-                    <ul class="pagination justify-content-end">
-                        @if (pageNumber > 1)
-                        {
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);" data-page="1">First</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);" data-page="@(pageNumber - 1)">Previous</a>
-                            </li>
-                        }
-                        @for (var i = 1; i <= totalPages; i++)
-                        {
-                            <li class="page-item @(i == pageNumber ? "active" : "")">
-                                <a class="page-link" href="javascript:void(0);" data-page="@i">@i</a>
-                            </li>
-                        }
-                        @if (pageNumber < totalPages)
-                        {
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);" data-page="@(pageNumber + 1)">Next</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);" data-page="@totalPages">Last</a>
-                            </li>
-                        }
-                    </ul>
-                </nav>
-            </td>
-        </tr>
-    </tfoot>
 </table>
+        <div colspan="7">
+            <nav style="align-content:center" aria-label="Page navigation">
+                <ul class="pagination justify-content-end">
+                    @if (pageNumber > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);" data-page="1">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);" data-page="@(pageNumber - 1)">Previous</a>
+                        </li>
+                    }
+                    @for (var i = 1; i <= totalPages; i++)
+                    {
+                        <li class="page-item @(i == pageNumber ? "active" : "")">
+                            <a class="page-link" href="javascript:void(0);" data-page="@i">@i</a>
+                        </li>
+                    }
+                    @if (pageNumber < totalPages)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);" data-page="@(pageNumber + 1)">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);" data-page="@totalPages">Last</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {

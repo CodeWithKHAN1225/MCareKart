@@ -12,10 +12,10 @@ namespace UPC_DropDown.Models
         public string ProductName { get; set; }
         public int ProductPrice { get; set; }
         public string ProductDescription { get; set; }
+        //public string ImageFileName { get; set; }
         public int CategoryID { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
-        public ICollection<OrderItem> OrderItems { get; set; } // Add this line
-       // public object OrderItems { get; internal set; }
+        public ICollection<OrderItem> OrderItems { get; set; }
 
         internal static object FromSqlRaw(string v)
         {

@@ -1,6 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Thank You";
-}
+﻿@model UPC_DropDown.Models.ThankYouViewModel
 
-<h1>Thank You for Shopping!</h1>
-<p>Your order has been placed successfully.</p>
+<center>
+    <h1>Thank You for placing the order</h1>
+    <h3>Order @Model.Order.OrderNumber</h3>
+    <ul>
+        @foreach (var item in Model.Order.OrderItems)
+        {
+            <li>@item.Product.ProductName - @item.Quantity x ₹ @item.Price.ToString("N2")</li>
+        }
+    </ul>
+    <p>Total Price: ₹ @Model.Order.TotalPrice.ToString("N2")</p>
+    <p>User Name: @Model.UserName</p>
+</center>

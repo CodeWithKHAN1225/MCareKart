@@ -5,14 +5,15 @@
     ViewData["Title"] = "Categories List";
 }
 
-<h1>Categories List</h1>
-<h5><label for="keyword">Search by Category Name</label></h5>
+<h1><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="m261-526 220-354 220 354H261ZM705.65-80Q633-80 582.5-130.65q-50.5-50.64-50.5-123Q532-326 582.65-377q50.64-51 123-51Q778-428 829-377.15q51 50.86 51 123.5 0 72.65-50.85 123.15Q778.29-80 705.65-80ZM120-105v-304h304v304H120Z" /></svg> Categories List</h1>
 <form id="searchForm" style="display: flex; align-items: center; justify-content: space-between;">
     <div style="flex: 1; margin-right: 10px;">
-    <input type="text" id="keyword" placeholder="Enter keyword" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
+        <input type="text" id="keyword" placeholder="Search by Category Name" style="width: 100%; padding: 0.5em; box-sizing: border-box;" />
     </div>
-    <button type="button" id="searchButton" class="btn btn-primary">Search</button>
-   @*  <a href="@Url.Action("AddProduct", "Product")" class="btn btn-primary" style="margin-left: 10px;">Add Product</a> *@
+    <button type="button" id="searchButton" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#FFFFFF"><path d="M80-200v-80h400v80H80Zm0-200v-80h200v80H80Zm0-200v-80h200v80H80Zm744 400L670-354q-24 17-52.5 25.5T560-320q-83 0-141.5-58.5T360-520q0-83 58.5-141.5T560-720q83 0 141.5 58.5T760-520q0 29-8.5 57.5T726-410l154 154-56 56ZM560-400q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35Z" /></svg>
+        Search
+    </button>
 </form>
 <div style="margin-bottom: 1.2em;"></div>
 <div id="results">

@@ -1,0 +1,125 @@
+﻿@model Order
+
+<h1><svg xmlns="http://www.w3.org/2000/svg" height="48px" viewBox="0 -960 960 960" width="48px" fill="#000000"><path d="M100-160q-24.75 0-42.37-17.63Q40-195.25 40-220v-460h60v460h700v60H100Zm120-120q-24.75 0-42.37-17.63Q160-315.25 160-340v-400q0-24.75 17.63-42.38Q195.25-800 220-800h640q24.75 0 42.38 17.62Q920-764.75 920-740v400q0 24.75-17.62 42.37Q884.75-280 860-280H220Zm100-60q0-42-29-71t-71-29v100h100Zm440 0h100v-100q-42 0-71 29t-29 71Zm-220-80q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM220-640q42 0 71-29t29-71H220v100Zm640 0v-100H760q0 42 29 71t71 29Z" /></svg> Payment Page</h1>
+
+<h3>Order @Model.OrderNumber</h3>
+<ul>
+    @foreach (var item in Model.OrderItems)
+    {
+        <li>@item.Product.ProductName - @item.Quantity x ₹ @item.Price.ToString("N2")</li>
+    }
+</ul>
+<p>Total Price: ₹ @Model.TotalPrice.ToString("N2")</p>
+
+<style>
+    .payment-options-container {
+        border: 1px solid #28a745; /* New border color */
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0,128,0,0.2); /* New box shadow color */
+    }
+
+    .payment-options-title {
+        font-size: 1.5em;
+        margin-bottom: 20px;
+    }
+
+    .payment-category {
+        margin-bottom: 20px;
+    }
+
+        .payment-category h3 {
+            margin-bottom: 10px;
+        }
+
+        .payment-category div {
+            margin-left: 20px;
+        }
+</style>
+
+<h2>Choose Payment Option</h2>
+<div class="payment-options-container">
+    <form id="paymentForm">
+        <div class="payment-category">
+            <h3><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="M186.67-120q-26.34 0-46.5-19.83Q120-159.67 120-186.67v-586.66q0-26.34 20.17-46.5Q160.33-840 186.67-840h586.66q27 0 46.84 20.17Q840-799.67 840-773.33v36H532q-62.33 0-102.5 40.16-40.17 40.17-40.17 101.84V-364q0 61.67 40.17 101.83Q469.67-222 532-222h308v35.33q0 27-19.83 46.84Q800.33-120 773.33-120H186.67ZM532-288.67q-33.67 0-54.83-21.16Q456-331 456-364v-231.33q0-33.67 21.17-54.5 21.16-20.84 54.83-20.84h272.67q33.66 0 54.83 20.84 21.17 20.83 21.17 54.5V-364q0 33-21.17 54.17-21.17 21.16-54.83 21.16H532Zm116-128.66q25.33 0 44-18.67t18.67-44.67q0-25.33-18.67-43.66-18.67-18.34-44-18.34t-44 18.34q-18.67 18.33-18.67 43.66 0 26 18.67 44.67t44 18.67Z" /></svg> Online Payments</h3>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="Gpay" /> Gpay
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="PhonePe" /> PhonePe
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="Paytm" /> Paytm
+                </label>
+            </div>
+        </div>
+
+        <div class="payment-category">
+            <h3><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="M146.67-160q-27 0-46.84-19.83Q80-199.67 80-226.67v-506.66q0-27 19.83-46.84Q119.67-800 146.67-800h666.66q27 0 46.84 19.83Q880-760.33 880-733.33v506.66q0 27-19.83 46.84Q840.33-160 813.33-160H146.67Zm0-334.67h666.66V-634H146.67v139.33Z" /></svg> Card Payments</h3>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="CreditCard" /> Credit Card
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="DebitCard" /> Debit Card
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="VisaCard" /> Visa Card
+                </label>
+            </div>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="RupayCard" /> Rupay Card
+                </label>
+            </div>
+        </div>
+
+        <div class="payment-category">
+            <h3><svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#000000"><path d="M229.41-160.67q-49.41 0-84.08-34.61-34.66-34.61-34.66-84.05H40v-454q0-27 19.83-46.84Q79.67-800 106.67-800h572.66v164.67h110l130.67 174v182h-74q0 49.44-34.59 84.05t-84 34.61q-49.41 0-84.08-34.61-34.66-34.61-34.66-84.05H348q0 49.33-34.59 84-34.59 34.66-84 34.66Zm-.08-66.66q21.67 0 36.84-15.17 15.16-15.17 15.16-36.83 0-21.67-15.16-36.84-15.17-15.16-36.84-15.16-21.66 0-36.83 15.16-15.17 15.17-15.17 36.84 0 21.66 15.17 36.83 15.17 15.17 36.83 15.17Zm498 0q21.67 0 36.84-15.17 15.16-15.17 15.16-36.83 0-21.67-15.16-36.84-15.17-15.16-36.84-15.16-21.66 0-36.83 15.16-15.17 15.17-15.17 36.84 0 21.66 15.17 36.83 15.17 15.17 36.83 15.17Zm-48-202.67H860L756-568.67h-76.67V-430Z" /></svg> Cash on Delivery</h3>
+            <div>
+                <label>
+                    <input type="radio" name="paymentMethod" value="COD" /> Cash on Delivery
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#paymentForm").on("submit", function (e) {
+            e.preventDefault();
+
+            var paymentMethod = $("input[name='paymentMethod']:checked").val();
+            if (!paymentMethod) {
+                alert("Please select a payment method.");
+                return;
+            }
+
+            // Debugging
+            console.log("Selected payment method: " + paymentMethod);
+
+            // Simulate successful order placement
+            alert("Order placed successfully");
+
+            // Get the orderId from the model
+            var orderId = @Model.OrderId;
+
+            // Redirect to the Thank You page with the orderId
+            window.location.href = "/Order/ThankYou?orderId=" + orderId;
+        });
+    });
+</script>
+
