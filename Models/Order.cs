@@ -12,6 +12,7 @@ namespace UPC_DropDown.Models
         public decimal TotalPrice { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
+
     }
 
     public class OrderItem
@@ -24,6 +25,7 @@ namespace UPC_DropDown.Models
 
         public Order Order { get; set; }
         public Product Product { get; set; }
+
     }
     public class PaymentViewModel
     {

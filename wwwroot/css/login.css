@@ -1,0 +1,56 @@
+﻿/* General body styles */
+body {
+    background-image: url(img2.jpeg); /* Ensure the image path is correct */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden; /* Prevent scrolling */
+    height: 100vh; /* Ensure the body height fits the viewport */
+}
+
+/* Error message styles */
+.errorMsg {
+    color: #dc3545;
+}
+
+/* Register link styles */
+.register-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .register-link a {
+        color: #6a11cb;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+        .register-link a:hover {
+            color: #2575fc;
+        }
+
+/* Login page styles */
+.login-wrapper {
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Register page styles */
+.register-container {
+    width: 40%;
+    margin-top: 2%; /* Adjust form position to create a gap at the bottom */
+}
+
+.logo-container {
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+    .logo-container img {
+        max-width: 40%;
+        height: auto;
+       /* margin-left: 30%;*/
+    }

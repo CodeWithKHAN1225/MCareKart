@@ -11,4 +11,7 @@
     </ul>
     <p>Total Price: ₹ @Model.Order.TotalPrice.ToString("N2")</p>
     <p>User Name: @Model.UserName</p>
+
+    <a class="btn btn-primary" asp-controller="Order" asp-action="InvoiceList" asp-route-orderId="@Model.Order.OrderId">View Invoice</a>
+
 </center>

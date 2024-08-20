@@ -19,18 +19,23 @@ namespace UPC_DropDown.Controllers
         }
 
         [HttpPost]
-        public IActionResult SubmitLogin(LoginModel loginmodel)
+        public IActionResult SubmitLogin(LoginModel loginModel)
         {
-            User userObj = _dbContext.Users.FirstOrDefault(p => p.UserName == loginmodel.UserName && p.UserPassword == loginmodel.UserPassword);
+            if (!ModelState.IsValid)
+            {
+                return View("Login", loginModel);
+            }
+
+            var userObj = _dbContext.Users
+                .FirstOrDefault(p => p.UserName == loginModel.UserName && p.UserPassword == loginModel.UserPassword);
+
             if (userObj == null)
             {
                 ModelState.AddModelError("", "Entered username or password is incorrect.");
-                return View("Login", loginmodel);
+                return View("Login", loginModel);
             }
-            else
-            {
-                return RedirectToAction("Dashboard", "Home");
-            }
+
+            return RedirectToAction("Dashboard", "Home");
         }
 
         public IActionResult RegisterForm()
@@ -42,7 +47,20 @@ namespace UPC_DropDown.Controllers
         [HttpPost]
         public IActionResult SaveUser(RegisterModel registerModel)
         {
-            User newUser = new User
+            // Validate the model
+            if (!ModelState.IsValid)
+            {
+                return View("RegisterForm", registerModel);
+            }
+
+            // Check if the username or email already exists
+            if (_dbContext.Users.Any(u => u.UserName == registerModel.UserName || u.UserEmail == registerModel.UserEmail))
+            {
+                ModelState.AddModelError("", "Username or Email already exists.");
+                return View("RegisterForm", registerModel);
+            }
+
+            var newUser = new User
             {
                 UserName = registerModel.UserName,
                 UserPassword = registerModel.UserPassword,
@@ -62,4 +80,3 @@ namespace UPC_DropDown.Controllers
         }
     }
 }
-

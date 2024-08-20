@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using UPC_DropDown.Models;
 using System.Linq;
 using System.Threading.Tasks;
+using ClosedXML.Excel;
 
 public class ProductController : Controller
 {
@@ -176,6 +177,40 @@ public class ProductController : Controller
         catch (Exception ex)
         {
             return Json(new { success = false, message = ex.Message });
+        }
+    }
+
+    public async Task<IActionResult> ExportToExcel()
+    {
+        var products = await _db.Products.Include(p => p.Category).ToListAsync();
+
+        using (var workbook = new XLWorkbook())
+        {
+            var worksheet = workbook.Worksheets.Add("Products");
+            var currentRow = 1;
+
+            worksheet.Cell(currentRow, 1).Value = "Product ID";
+            worksheet.Cell(currentRow, 2).Value = "Product Name";
+            worksheet.Cell(currentRow, 3).Value = "Price";
+            worksheet.Cell(currentRow, 4).Value = "Description";
+            worksheet.Cell(currentRow, 5).Value = "Category Name";
+
+            foreach (var product in products)
+            {
+                currentRow++;
+                worksheet.Cell(currentRow, 1).Value = product.ProductID;
+                worksheet.Cell(currentRow, 2).Value = product.ProductName;
+                worksheet.Cell(currentRow, 3).Value = product.ProductPrice;
+                worksheet.Cell(currentRow, 4).Value = product.ProductDescription;
+                worksheet.Cell(currentRow, 5).Value = product.Category?.CategoryName;
+            }
+
+            using (var stream = new MemoryStream())
+            {
+                workbook.SaveAs(stream);
+                var content = stream.ToArray();
+                return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Products.xlsx");
+            }
         }
     }
 }

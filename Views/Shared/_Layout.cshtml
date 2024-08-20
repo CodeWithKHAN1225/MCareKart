@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - UPC_DropDown</title>
+    <title>@ViewData["Title"] - MicroShoppingKart</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/UPC_DropDown.styles.css" asp-append-version="true" />
@@ -42,7 +42,10 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark-mode">
-            <a class="navbar-brand" href="#" style="font-weight: bold; font-size: 2.0em; font-family: 'Times New Roman', Times, serif; text-decoration: none; color: deepskyblue; margin-inline-start:2%">Micro Tech</a>
+            <!-- Logo and Brand Name -->
+           <img src="~/css/logo.png" alt="Logo" style="height: 40px; margin-right: 10px; margin-left:50px" /> <!-- Update with your logo path -->
+                
+            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -89,8 +92,8 @@
         </main>
     </div>
     <footer class="border-top footer text-muted footer-dark-mode">
-        <div class="container">
-            &copy; 2024 - MICRO TECH - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div style="font-weight: bold; font-family: 'Times New Roman', Times, serif; text-decoration: none; margin-left:5%">
+                    &copy; 2024 - MICROCARE - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,0 +1,24 @@
+﻿@* @model List<UPC_DropDown.Models.Order>
+
+<html>
+<head>
+    <title>Order Invoice</title>
+</head>
+<body>
+    <h1>Order Invoice</h1>
+    @foreach (var order in Model)
+    {
+        <h2>Order ID: @order.OrderId</h2>
+        <p>Order Date: @order.OrderDate</p>
+         <p>Payment Option: @order.PaymentOption</p> 
+       <ul>
+            @foreach (var item in order.Order)
+            {
+                <li>@item.ProductName - @item.Quantity - @item.Price</li>
+            }
+        </ul>
+       <p>Total Amount: @order.TotalAmount</p>
+    }
+</body>
+</html>  *@
+ 

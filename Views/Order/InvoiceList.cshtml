@@ -1,0 +1,120 @@
+﻿@model UPC_DropDown.Models.Invoice
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <style>
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .invoice-header img {
+                max-width: 150px; /* Adjust the size of the logo */
+            }
+
+            .invoice-header .date-time {
+                font-size: 14px;
+                color: gray;
+            }
+
+        .invoice-title {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .invoice-user-details {
+          /*   text-align: center; */
+            margin-top: 10px;
+        }
+
+        .invoice-table {
+            margin-top: 30px;
+        }
+
+            .invoice-table th, .invoice-table td {
+                padding: 10px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+
+        .invoice-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .danger-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="invoice-header">
+            <div class="logo">
+                <img src="~/css/logo.png" alt="Company Logo" />
+            </div>
+            <div class="date-time">
+                @DateTime.Now.ToString("MMMM dd, yyyy - HH:mm:ss")
+            </div>
+        </div>
+
+        <div class="invoice-title">
+            Invoice
+        </div>
+
+        <div class="invoice-user-details">
+            <p><strong>Name :</strong> @Model.UserName</p>
+            <p><strong>Address :</strong> @Model.UserAddress</p>
+             <p><strong>Mobile Number :</strong> @Model.MobileNumber</p>
+            <p><strong>Email Id :</strong> @Model.EmailId</p>
+        </div>
+
+        <table class="table invoice-table">
+            <thead>
+                <tr>
+                    <th>Invoice ID</th>
+                    <th>Order ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Order.OrderItems)
+                {
+                    <tr>
+                        <td>@Model.InvoiceId</td>
+                        <td>@item.OrderId</td>
+                        <td>@item.Product.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>₹ @item.Price.ToString("N2")</td>
+                        <td>₹ @(item.Quantity * item.Price)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="invoice-total">
+            <span>Grand Total: ₹ @Model.Order.TotalPrice.ToString("N2")</span>
+            <form method="post" action="@Url.Action("DownloadInvoice", new { orderId = Model.Order.OrderId })" style="display:inline;">
+                <button type="submit" class="danger-button">Print</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

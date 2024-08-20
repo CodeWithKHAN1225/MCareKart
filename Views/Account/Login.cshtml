@@ -2,88 +2,72 @@
 @model UPC_DropDown.Models.LoginModel
 
 @{
-    Layout = "_LoginLayout";       /* here i'm using the partial view layout */
+    Layout = "_LoginLayout";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/css/site.css"> <!-- Link to my custom CSS -->
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(to right, #ff7e5f, #feb47b); /* Background gradient */
-            min-height: 100vh;                                           /* to set the height, 1vh =1%, vh = viewport height */
-            display: flex;                                               /* to display flex in my view body */
-            align-items: center;                                         /* to align them in center */
-            justify-content: center;                                     /* to set the content in center */
-            overflow: hidden;                                            /* prevent unwanted horizontal scrolling  */
-        }
 
-        .login-container {
-            background: rgba(255, 255, 255, 0.85);
-            padding: 2rem;
-            width: 450px;
-            border-radius: 15px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 1s ease-in-out;
+<style>
+
+  
+    h1 {
+        color: ghostwhite;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+
+    .form-control {
+        border-radius: 30px;
+        padding: 15px 20px;
+        font-size: 1rem;
+        margin-bottom: 20px;
+        border: 2px solid #e0e0e0;
+        transition: border-color 0.3s;
+    }
+
+        .form-control:focus {
+            border-color: #6a11cb;
+            box-shadow: none;
         }
 
 
-        .btn-custom {
-            background-color: #ff7e5f;
-            border: none;
+    .btn-custom {
+        background-color: #6a11cb;
+        border: none;
+        color: white;
+        font-size: 1.2rem;
+        padding: 10px 20px;
+        border-radius: 30px;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+        .btn-custom:hover {
+            background-color: #2575fc;
             color: white;
         }
 
-            .btn-custom:hover {
-                background-color: #feb47b;
-                color: white;
-            }
+</style>
 
-        .form-control {
-            border-radius: 20px;
-        }
-
-        .errorMsg {
-            color: #dc3545;
-        }
-
-        h1 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <h1>Log In</h1>
-        <div asp-validation-summary="ModelOnly" class="errorMsg mb-4"></div>
-        <form asp-action="SubmitLogin" method="post">
-            <div class="form-group">
-                <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" placeholder="Username" />
-                <span asp-validation-for="UserName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserPassword" class="control-label"></label>
-                <input asp-for="UserPassword" class="form-control" type="password" placeholder="Password" />
-                <span asp-validation-for="UserPassword" class="text-danger"></span>
-            </div>
-            <div class="form-group text-center">
-                <button type="submit" class="btn btn-custom btn-block">Login</button>
-            </div>
-            <div class="form-group text-center">
-                <a href="@Url.Action("RegisterForm", "Account")" class="btn btn-secondary btn-block">Register</a>
-            </div>
-        </form>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+<div class="logo-container">
+    <img src="~/css/logo.png"> <!-- Replace with your logo path -->
+</div>
+<div class="login-wrapper">
+    <h1 style="color:white; margin-bottom:10%">Login</h1>
+    <div asp-validation-summary="ModelOnly" class="errorMsg mb-4"></div>
+    <form asp-action="SubmitLogin" asp-controller="Account" method="post">
+        <div class="form-group">
+            <input asp-for="UserName" class="form-control" placeholder="Username" />
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="UserPassword" class="form-control" type="password" placeholder="Password" />
+            <span asp-validation-for="UserPassword" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-custom">Login</button>
+        </div>
+        <div class="register-link">
+            <p style="color:whitesmoke">Don't have an account? <a href="@Url.Action("RegisterForm", "Account")">Register</a></p>
+        </div>
+    </form>
+</div>
